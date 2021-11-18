@@ -10,11 +10,17 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQuery;
 
 /**
  *
  * @author Xune
  */
+@NamedQuery(name = "CompteBancaire.countAll",
+        query = "select count(c) from CompteBancaire c")
+@NamedQuery(name = "CompteBancaire.findAll",
+        query = "select c from CompteBancaire c")
+
 @Entity
 public class CompteBancaire implements Serializable {
 
@@ -22,9 +28,17 @@ public class CompteBancaire implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    
     int solde;
     String nom;
+
+    public CompteBancaire(String nom, int solde) {
+        this.nom = nom;
+        this.solde = solde;
+    }
+
+    public CompteBancaire() {
+
+    }
 
     public int getSolde() {
         return solde;
@@ -74,25 +88,17 @@ public class CompteBancaire implements Serializable {
     public String toString() {
         return "ma.emsi.tpbanque_melhaouitarek.entities.CompteBancaire[ id=" + id + " ]";
     }
-    public CompteBancaire(String nom, int solde) {  
-  this.nom = nom;  
-  this.solde = solde;  
-}  
-          public CompteBancaire()
-          {
-              
-          }
-    
-public void deposer(int montant) {  
-  solde += montant;  
-}  
-                  
-public void retirer(int montant) {  
-  if (montant < solde) {  
-    solde -= montant;  
-  } else {
-    solde = 0;
-  }  
-}
-    
+
+    public void deposer(int montant) {
+        solde += montant;
+    }
+
+    public void retirer(int montant) {
+        if (montant < solde) {
+            solde -= montant;
+        } else {
+            solde = 0;
+        }
+    }
+
 }
